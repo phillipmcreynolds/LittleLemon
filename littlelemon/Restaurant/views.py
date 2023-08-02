@@ -3,11 +3,20 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework import status
+from rest_framework.decorators import permission_classes
+from rest_framework import viewsets
 from django.contrib.auth.models import User
 from .models import Menu, Booking
 from .serializers import MenuSerializer, BookingSerializer, UserSerializer
+
+# Open views.py. Does it contain the code for viewset classes of for the Menu 
+class MenuViewSet(viewsets.ModelViewSet):
+    queryset = Menu.objects.all().order_by('id')
+    serializer_class = MenuSerializer
+# and Booking models?
+class BookingViewSet(viewsets.ModelViewSet):
+    queryset = Booking.objects.all().order_by('id')
+    serializer_class = BookingSerializer
 
 class MenuItemsView(ListCreateAPIView):
     queryset = Menu.objects.all()
