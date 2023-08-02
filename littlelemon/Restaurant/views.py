@@ -26,28 +26,16 @@ class SingleMenuItemView(RetrieveUpdateDestroyAPIView, CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        if IsAuthenticated():
             return self.create(request, *args, **kwargs)
-        else:
-            return Response({"message": "unauthorized"}, status.HTTP_403_FORBIDDEN)
+        
     def put(self, request, *args, **kwargs):
-        if IsAuthenticated():
             return self.update(request, *args, **kwargs)
-        else:
-            return Response({"message": "unauthorized"}, status.HTTP_403_FORBIDDEN)
         
     def patch(self, request, *args, **kwargs):
-        if IsAuthenticated():
             return self.update(request, *args, **kwargs)
-        else:
-            return Response({"message": "unauthorized"}, status.HTTP_403_FORBIDDEN)
-        
     def delete(self, request, *args, **kwargs):
-        if IsAuthenticated():
             return self.destroy(request, *args, **kwargs)
-        else:
-            return Response({"message": "DELETE undefined for lists, but it's fine :)"}, status.HTTP_200_OK)
-
+        
 @permission_classes([IsAuthenticated])
 class BookingViewSet(ModelViewSet):
     queryset = Booking.objects.all()
@@ -56,3 +44,6 @@ class BookingViewSet(ModelViewSet):
 def authenticated(Request):
     permission_classes = [IsAuthenticated]
     return True
+
+def home(request):
+    return render(request, 'index.html')
