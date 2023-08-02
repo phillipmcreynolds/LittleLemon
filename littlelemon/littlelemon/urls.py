@@ -30,5 +30,6 @@ urlpatterns = [
     # path('restaurant/', include('reservation.urls')),
     path('restaurant/menu/',include('Restaurant.urls')),
     path('restaurant/',include('Restaurant.urls')),
-    path('restaurant/booking/', include(router.urls))
+    path('restaurant/booking/', include(router.urls)),
+    path('api/', include('Restaurant.urls')),
 ]
