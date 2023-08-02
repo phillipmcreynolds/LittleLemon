@@ -5,12 +5,20 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
+from django.contrib.auth.models import User
 from .models import Menu, Booking
-from .serializers import MenuSerializer, BookingSerializer
+from .serializers import MenuSerializer, BookingSerializer, UserSerializer
 
 class MenuItemsView(ListCreateAPIView):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+
+class UserView(CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 class SingleMenuItemView(RetrieveUpdateDestroyAPIView, CreateAPIView):
     queryset = Menu.objects.all()
@@ -40,11 +48,10 @@ class SingleMenuItemView(RetrieveUpdateDestroyAPIView, CreateAPIView):
         else:
             return Response({"message": "DELETE undefined for lists, but it's fine :)"}, status.HTTP_200_OK)
 
-
+@permission_classes([IsAuthenticated])
 class BookingViewSet(ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
-    permission_classes = [IsAuthenticated] 
 
 def authenticated(Request):
     permission_classes = [IsAuthenticated]
