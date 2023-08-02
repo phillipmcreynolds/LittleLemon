@@ -18,12 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from Restaurant.views import BookingViewSet
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = DefaultRouter(trailing_slash=False)
 router.register(r'tables', BookingViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth/token/login/', obtain_auth_token),
+    path('auth/', include('djoser.urls.authtoken')),
     # path('restaurant/', include('reservation.urls')),
     path('restaurant/menu/',include('Restaurant.urls')),
     path('restaurant/',include('Restaurant.urls')),
